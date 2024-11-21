@@ -1,0 +1,21 @@
+
+
+
+
+        # required_fields = ['first_name', 'last_name', 'email', 'password'] if request_method == "POST" else ['email']
+
+        for field in required_fields:
+                if not data.get(field):
+                    raise serializers.ValidationError({field: f"This field is required to update the specific user!."})
+
+        if request_method =="PATCH":
+                print("In Patch Method")
+                if not Student.objects.filter(email=data['email']).exists():
+                    print("No User")
+                    raise serializers.ValidationError({'email': 'There is no user with this email.'}) 
+                print("User Exist")
+                
+        else:      
+                if Student.objects.filter(email=data['email']).exists():
+                    raise serializers.ValidationError({'eamil': 'This email is already taken by a student.'})  
+                
